@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import prisma from "../prisma"; // make sure src/prisma.ts exists
+import prisma from "../prisma.js"; // make sure src/prisma.ts exists
 import { z } from "zod";
 // Validation schema
 const authSchema = z.object({

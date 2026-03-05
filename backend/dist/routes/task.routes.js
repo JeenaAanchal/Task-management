@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { authenticate } from "../middlewares/auth.middleware";
-import { createTask, getTasks, toggleTask, deleteTask, updateTask, } from "../controllers/task.controller";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { createTask, getTasks, toggleTask, deleteTask, updateTask, } from "../controllers/task.controller.js";
 const router = Router();
 // All routes below require authentication
 router.use(authenticate);

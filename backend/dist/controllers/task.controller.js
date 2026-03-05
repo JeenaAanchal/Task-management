@@ -1,5 +1,5 @@
 import { z } from "zod";
-import prisma from "../prisma"; // make sure src/prisma.ts exists
+import prisma from "../prisma.js"; // make sure src/prisma.ts exists
 // Validation schema for creating a task
 const createTaskSchema = z.object({
     title: z.string().min(1, "Title is required"),
