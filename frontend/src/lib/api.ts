@@ -24,7 +24,7 @@ api.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(error)
+  (error: any) => Promise.reject(error)
 );
 
 
@@ -46,7 +46,7 @@ const processQueue = (error: any, token: string | null = null) => {
 };
 
 api.interceptors.response.use(
-  (response) => response,
+  (response: any) => response,
   async (error: AxiosError) => {
     const originalRequest: any = error.config;
 
