@@ -1,9 +1,12 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 // Create Axios instance
 export const api = axios.create({
-  baseURL: "http://localhost:5000",
-  withCredentials: true, // needed for refresh token cookie
+  baseURL: API_URL,
+  withCredentials: true,
 });
 
 
@@ -47,12 +50,10 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest: any = error.config;
 
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry
-    ) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
+
       if (isRefreshing) {
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
@@ -67,7 +68,7 @@ api.interceptors.response.use(
 
       try {
         const response = await axios.post(
-          "http://localhost:5000/auth/refresh",
+          `${API_URL}/auth/refresh`,
           {},
           { withCredentials: true }
         );
@@ -85,7 +86,9 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
         return api(originalRequest);
+
       } catch (refreshError) {
+
         processQueue(refreshError, null);
 
         if (typeof window !== "undefined") {
@@ -94,6 +97,7 @@ api.interceptors.response.use(
         }
 
         return Promise.reject(refreshError);
+
       } finally {
         isRefreshing = false;
       }
